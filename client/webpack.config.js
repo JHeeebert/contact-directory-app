@@ -3,43 +3,44 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
-//  Add and configure workbox plugins for a service worker and manifest file.
-// Add CSS loaders and babel to webpack.
 module.exports = () => {
   return {
     mode: 'development',
+    // Entry point for files
     entry: {
       main: './src/js/index.js',
       install: './src/js/install.js',
       cards: './src/js/cards.js'
     },
+    // Output for our bundles
     output: {
       filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
-      // Webpack plugin that generates an HTML file for your application
-      // by injecting automatically all your generated bundles.
+      // Webpack plugin that generates our html file and injects our bundles. 
       new HtmlWebpackPlugin({
         template: './index.html',
-        title: 'Webpack Plugin'
+        title: 'Contact Cards'
       }),
-      // Injects bundles into the HTML file.
+
+      // Injects our custom service worker
       new InjectManifest({
         swSrc: './src-sw.js',
-        swDest: 'service-worker.js',
+        swDest: 'src-sw.js',
       }),
-      // Webpack plugin that generates a manifest.json file
+
+      // Creates a manifest.json file.
       new WebpackPwaManifest({
         fingerprints: false,
         inject: true,
-        name: 'Just Another Text Editor',
-        short_name: 'JATE',
-        description: 'A text editor for online and offline use',
-        background_color: '#7eb4e2',
-        theme_color: '#7eb4e2',
-        start_url: '/',
-        public_path: '/',
+        name: 'Contact Cards',
+        short_name: 'Contact',
+        description: 'Never forget your contacts!',
+        background_color: '#225ca3',
+        theme_color: '#225ca3',
+        start_url: './',
+        publicPath: './',
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
@@ -49,17 +50,18 @@ module.exports = () => {
         ],
       }),
     ],
+
     module: {
-      // CSS loader for.js files
+      // CSS loaders
       rules: [
         {
-          test: /\.css$/,
+          test: /\.css$/i,
           use: ['style-loader', 'css-loader'],
         },
         {
           test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
-          // Use babel-loader to transpile JavaScript files.
+          exclude: /node_modules/,
+          // We use babel-loader in order to use ES6.
           use: {
             loader: 'babel-loader',
             options: {
@@ -67,10 +69,8 @@ module.exports = () => {
               plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
             },
           },
-        }
+        },
       ],
     },
   };
 };
-
-
