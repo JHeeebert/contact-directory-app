@@ -1,23 +1,40 @@
 {
-  "name": "mini-project-develop",
+  "name": "CONTACT-Develop",
   "version": "1.0.0",
-  "description": "",
+  "description": "Mongoose back-end project",
   "main": "server.js",
-  "scripts": {
-    "start:dev": "",
-    "start": "",
-    "server": "",
-    "build": "",
-    "install": "",
-    "client": ""
-  },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
+  "scripts": {
+    "start:dev": "concurrently \"cd server && npm run server\" \"cd client && npm run dev\"",
+    "start": "npm run build && cd server && node server.js",
+    "server": "cd server nodemon server.js --ignore client",
+    "build": "cd client && npm run build",
+    "install": "cd server && npm i && cd ../client && npm i",
+    "client": "cd client && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jheeebert/contact-delivery-app.git"
+  },
+  "keywords": [
+    "pwa",
+    "text",
+    "editor"
+  ],
+  "author": "Joshua Hebert",
+  "bugs": {
+    "url": "https://github.com/jheeebert/contact-delivery-app/issues"
+  },
+  "homepage": "https://github.com/jheeebert/contact-delivery-app/readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.18.2",
+    "mongoose": "^7.4.3"
   },
   "devDependencies": {
-    "concurrently": "^5.2.0"
+    "nodemon": "^2.0.9",
+    "concurrently": "^5.1.0"
+  },
+  "engines": {
+    "node": ">= 18.16.0"
   }
 }
